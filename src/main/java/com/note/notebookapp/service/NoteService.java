@@ -24,7 +24,9 @@ public class NoteService {
     }
 
     public Note updateNote(Note note) {
-        return noteRepository.save(note);
+        Note oldNote = getNoteOrElseThrow(note.getId());
+        oldNote.setContent(note.getContent());
+        return noteRepository.save(oldNote);
     }
 
     public void deleteNote(String id) {
@@ -32,16 +34,19 @@ public class NoteService {
     }
 
     public void addLike(String id) {
-        Note note = noteRepository.findById(id)
-                                  .orElseThrow(() -> new NoteNotFoundException(id));
+        Note note = getNoteOrElseThrow(id);
         note.setLikes(note.getLikes() + 1);
         noteRepository.save(note);
     }
 
     public void removeLike(String id) {
-        Note note = noteRepository.findById(id)
-                                  .orElseThrow(() -> new NoteNotFoundException(id));
+        Note note = getNoteOrElseThrow(id);
         note.setLikes(note.getLikes() - 1);
         noteRepository.save(note);
+    }
+
+    private Note getNoteOrElseThrow (String id) {
+        return noteRepository.findById(id)
+                             .orElseThrow(() -> new NoteNotFoundException(id));
     }
 }
