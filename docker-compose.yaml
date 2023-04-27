@@ -4,6 +4,7 @@ services:
     build: .
     ports:
       - 8080:8080
+      - 5005:5005
     depends_on:
       - mongo_db
   mongo_db:
