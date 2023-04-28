@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -20,9 +22,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(req -> req.anyRequest()
                                              .permitAll())
-            .httpBasic().and()
-            .formLogin().and()
-            .logout().and()
+            .httpBasic(withDefaults())
+            .formLogin(withDefaults())
+            .logout(withDefaults())
             .csrf().disable();
         return http.build();
     }
