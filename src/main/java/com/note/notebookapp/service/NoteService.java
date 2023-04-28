@@ -41,7 +41,8 @@ public class NoteService {
 
     public void removeLike(String id) {
         Note note = getNoteOrElseThrow(id);
-        note.setLikes(note.getLikes() - 1);
+        int updatedLikes = note.getLikes() > 0 ? note.getLikes() - 1 : 0;
+        note.setLikes(updatedLikes);
         noteRepository.save(note);
     }
 
