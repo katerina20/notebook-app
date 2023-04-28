@@ -3,6 +3,7 @@ package com.note.notebookapp.controller;
 import com.note.notebookapp.model.Note;
 import com.note.notebookapp.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,11 +37,13 @@ public class NoteController {
     }
 
     @PostMapping("/{id}/like")
+    @PreAuthorize("hasRole('USER')")
     public void addLike(@PathVariable String id) {
         noteService.addLike(id);
     }
 
     @PostMapping("/{id}/unlike")
+    @PreAuthorize("hasRole('USER')")
     public void removeLike(@PathVariable String id) {
         noteService.removeLike(id);
     }
